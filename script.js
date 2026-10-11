@@ -984,8 +984,19 @@
     handlePointerMove(event) {
       if (this.isInterfaceTarget(event.target)) return;
       if (event.isPrimary === false) return;
-
-      const coalesced = typeof event.getCoalescedEvents === "function" ? event.getCoalescedEvents() : [event];
+      let coalesced = [event];
+      
+      if (typeof event.getCoalescedEvents === "function") {
+        try {
+          const samples = event.getCoalescedEvents();
+      
+          if (samples && samples.length > 0) {
+            coalesced = samples;
+          }
+        } catch (error) {
+          coalesced = [event];
+        }
+      }
       const pointerType = event.pointerType || "mouse";
       const activeGesture = this.gesture?.pointerId === event.pointerId ? this.gesture : null;
       this.pointerInside = true;
