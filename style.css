@@ -1,0 +1,451 @@
+:root {
+  --raw-indigo: #061827;
+  --deep-indigo: #08243a;
+  --ink: rgba(239, 243, 239, 0.92);
+  --ink-soft: rgba(227, 234, 230, 0.58);
+  --ink-faint: rgba(227, 234, 230, 0.34);
+  --hairline: rgba(230, 237, 233, 0.22);
+  --page-pad: clamp(1rem, 2.7vw, 2.75rem);
+  --safe-top: max(0.85rem, env(safe-area-inset-top));
+  --safe-bottom: max(0.85rem, env(safe-area-inset-bottom));
+  color: var(--ink);
+  background: var(--raw-indigo);
+  font-family: "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--raw-indigo);
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: var(--ink);
+  background-image:
+    radial-gradient(circle at 50% 47%, rgba(42, 82, 108, 0.11), transparent 52%),
+    linear-gradient(180deg, rgba(1, 7, 13, 0.08), transparent 18%, transparent 76%, rgba(1, 7, 13, 0.26)),
+    url("denim-weave.png");
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-position: center, center, 0 0;
+  background-size: cover, cover, 320px 320px;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before,
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+}
+
+body::before {
+  opacity: 0.52;
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(198, 216, 217, 0.022) 0,
+      rgba(198, 216, 217, 0.022) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 6, 13, 0.055) 0,
+      rgba(0, 6, 13, 0.055) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+  mix-blend-mode: soft-light;
+}
+
+body::after {
+  opacity: 0.16;
+  background:
+    radial-gradient(circle at 12% 24%, rgba(255, 255, 255, 0.05), transparent 0.8px) 0 0 / 7px 7px,
+    radial-gradient(circle at 72% 62%, rgba(0, 0, 0, 0.16), transparent 0.9px) 0 0 / 11px 11px;
+  mix-blend-mode: overlay;
+}
+
+button,
+dialog,
+output {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible {
+  outline: 1px solid rgba(241, 245, 242, 0.95);
+  outline-offset: 5px;
+}
+
+::selection {
+  color: #061522;
+  background: rgba(213, 224, 221, 0.9);
+}
+
+#wear-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.surface {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+body.is-rubbing .surface {
+  cursor: grabbing;
+}
+
+.surface,
+.surface * {
+  -webkit-user-drag: none;
+}
+
+.brand,
+.hero,
+.interaction-instruction,
+.wear-meter {
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.brand {
+  position: fixed;
+  z-index: 4;
+  top: calc(var(--safe-top) + 0.15rem);
+  left: var(--page-pad);
+  color: var(--ink);
+  font-size: clamp(0.58rem, 0.65vw, 0.7rem);
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: calc(var(--safe-top) + 4rem) var(--page-pad) calc(var(--safe-bottom) + 7rem);
+}
+
+.display-title {
+  width: min(95vw, 98rem);
+  margin: 0;
+  color: rgba(240, 243, 238, 0.91);
+  font-size: clamp(3.15rem, 9.5vw, 10.2rem);
+  font-weight: 600;
+  letter-spacing: -0.075em;
+  line-height: 0.82;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+  text-shadow: 0 0.06em 0.18em rgba(0, 7, 14, 0.12);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.display-title span {
+  display: block;
+}
+
+.display-title span:last-child {
+  color: rgba(228, 235, 231, 0.64);
+}
+
+.interaction-instruction {
+  position: fixed;
+  z-index: 4;
+  right: var(--page-pad);
+  bottom: calc(var(--safe-bottom) + clamp(4.3rem, 10vh, 7rem));
+  left: var(--page-pad);
+  margin: 0;
+  color: var(--ink-faint);
+  font-size: clamp(0.5rem, 0.58vw, 0.62rem);
+  font-weight: 650;
+  letter-spacing: 0.2em;
+  line-height: 1.45;
+  text-align: center;
+  text-transform: uppercase;
+  transition: opacity 180ms ease, letter-spacing 180ms ease;
+}
+
+body.is-rubbing .interaction-instruction {
+  opacity: 0.22;
+  letter-spacing: 0.24em;
+}
+
+.wear-meter {
+  position: fixed;
+  z-index: 4;
+  bottom: calc(var(--safe-bottom) + 0.1rem);
+  left: var(--page-pad);
+  width: clamp(8.5rem, 16vw, 13rem);
+}
+
+.wear-meter__label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--ink-faint);
+  font-size: clamp(0.49rem, 0.54vw, 0.58rem);
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.wear-meter output {
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.wear-meter__track {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 0.58rem;
+  overflow: hidden;
+  background: rgba(229, 236, 232, 0.15);
+}
+
+.wear-meter__track i {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: rgba(233, 239, 235, 0.72);
+  transform-origin: left center;
+  transition: width 420ms ease;
+}
+
+.reset-button {
+  position: fixed;
+  z-index: 8;
+  right: var(--page-pad);
+  bottom: calc(var(--safe-bottom) - 0.05rem);
+  padding: 0.45rem 0;
+  border: 0;
+  border-bottom: 1px solid rgba(229, 237, 233, 0.24);
+  color: var(--ink-soft);
+  background: transparent;
+  cursor: pointer;
+  font-size: clamp(0.5rem, 0.54vw, 0.58rem);
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.reset-button:hover {
+  color: var(--ink);
+  border-color: rgba(238, 244, 240, 0.72);
+}
+
+.reset-dialog {
+  width: min(29rem, calc(100vw - 2rem));
+  padding: 0;
+  border: 1px solid rgba(221, 231, 227, 0.24);
+  color: var(--ink);
+  background:
+    linear-gradient(rgba(5, 22, 35, 0.965), rgba(6, 25, 40, 0.965)),
+    url("denim-weave.png");
+  background-size: auto, 320px 320px;
+  box-shadow: 0 2rem 6rem rgba(0, 5, 10, 0.56);
+}
+
+.reset-dialog::backdrop {
+  background: rgba(1, 7, 12, 0.74);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.reset-dialog__inner {
+  padding: clamp(1.45rem, 5vw, 2.7rem);
+}
+
+.dialog-kicker {
+  margin: 0 0 1rem;
+  color: var(--ink-faint);
+  font-size: 0.54rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.reset-dialog h2 {
+  max-width: 23rem;
+  margin: 0;
+  font-size: clamp(1.55rem, 4vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.reset-dialog p:not(.dialog-kicker) {
+  margin: 1.15rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.reset-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  margin-top: 2.2rem;
+}
+
+.dialog-button {
+  padding: 0.74rem 0.86rem;
+  border: 1px solid rgba(225, 234, 230, 0.22);
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.54rem;
+  font-weight: 650;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.dialog-button--quiet:hover {
+  border-color: rgba(225, 234, 230, 0.56);
+}
+
+.dialog-button--danger {
+  color: #071522;
+  border-color: rgba(225, 233, 229, 0.9);
+  background: rgba(225, 233, 229, 0.9);
+}
+
+.dialog-button--danger:hover {
+  background: #f1f4f1;
+}
+
+.noscript-message {
+  position: fixed;
+  z-index: 20;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(235, 241, 237, 0.3);
+  color: var(--ink);
+  background: rgba(4, 18, 29, 0.96);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --page-pad: 1rem;
+  }
+
+  body {
+    background-size: cover, cover, 270px 270px;
+  }
+
+  .brand {
+    top: calc(var(--safe-top) + 0.1rem);
+    font-size: 0.55rem;
+    letter-spacing: 0.16em;
+  }
+
+  .hero {
+    padding-top: calc(var(--safe-top) + 4.4rem);
+    padding-bottom: calc(var(--safe-bottom) + 8rem);
+  }
+
+  .display-title {
+    width: 100%;
+    font-size: clamp(2.35rem, 11.5vw, 4.25rem);
+    letter-spacing: -0.07em;
+    line-height: 0.84;
+  }
+
+  .interaction-instruction {
+    bottom: calc(var(--safe-bottom) + 5.15rem);
+    font-size: 0.47rem;
+    letter-spacing: 0.17em;
+  }
+
+  .wear-meter {
+    width: 8.2rem;
+  }
+
+  .wear-meter__label,
+  .reset-button {
+    font-size: 0.48rem;
+  }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .display-title {
+    font-size: clamp(2.8rem, 12.5vh, 5.6rem);
+  }
+
+  .interaction-instruction {
+    bottom: calc(var(--safe-bottom) + 3.4rem);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .surface {
+    cursor: default;
+  }
+
+  .reset-button:hover {
+    color: var(--ink-soft);
+    border-color: rgba(229, 237, 233, 0.24);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Digital Fading is an interactive denim surface that records touch, friction, and time as accumulated wear."
+    />
+    <meta name="theme-color" content="#061827" />
+    <meta name="color-scheme" content="dark" />
+    <title>DIGITAL FADING — Every Touch Leaves a Trace</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <canvas id="wear-canvas" aria-hidden="true"></canvas>
+
+    <main id="surface" class="surface" aria-labelledby="hero-title">
+      <header class="brand">DIGITAL FADING</header>
+
+      <section class="hero">
+        <h1 id="hero-title" class="display-title">
+          <span>EVERY TOUCH</span>
+          <span>LEAVES A TRACE.</span>
+        </h1>
+      </section>
+
+      <p id="interaction-instruction" class="interaction-instruction">
+        CLICK AND DRAG TO WEAR THE SURFACE
+      </p>
+
+      <div class="wear-meter" aria-label="Accumulated wear level">
+        <div class="wear-meter__label">
+          <span>WEAR LEVEL</span>
+          <output id="stat-fading" aria-live="polite">0.0%</output>
+        </div>
+        <span class="wear-meter__track" aria-hidden="true">
+          <i id="wear-meter-fill"></i>
+        </span>
+      </div>
+    </main>
+
+    <button id="reset-button" class="reset-button" type="button">RESET</button>
+
+    <dialog id="reset-dialog" class="reset-dialog" aria-labelledby="reset-title">
+      <div class="reset-dialog__inner">
+        <p class="dialog-kicker">ERASE LOCAL MEMORY</p>
+        <h2 id="reset-title">Return this surface to raw indigo?</h2>
+        <p>This removes the wear stored in this browser.</p>
+        <div class="reset-dialog__actions">
+          <button id="cancel-reset" class="dialog-button dialog-button--quiet" type="button">KEEP TRACE</button>
+          <button id="confirm-reset" class="dialog-button dialog-button--danger" type="button">RESET</button>
+        </div>
+      </div>
+    </dialog>
+
+    <noscript>
+      <div class="noscript-message">
+        DIGITAL FADING needs JavaScript to record and render the wear created by your interactions.
+      </div>
+    </noscript>
+  </body>
+</html>
