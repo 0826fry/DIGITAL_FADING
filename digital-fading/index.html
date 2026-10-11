@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Digital Fading is an interactive website that records use as accumulated, denim-like wear."
+    />
+    <meta name="theme-color" content="#071a2b" />
+    <meta name="color-scheme" content="dark" />
+    <title>DIGITAL FADING — Every Touch Leaves a Trace</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <canvas id="wear-canvas" aria-hidden="true"></canvas>
+
+    <div class="site-chrome site-chrome--top" aria-hidden="true">
+      <div class="identity">
+        <span class="identity__title">DIGITAL FADING</span>
+        <span class="identity__subtitle">PERSONAL SURFACE / LOCAL MEMORY</span>
+      </div>
+      <div class="visit-mark">
+        <span>RAW STATE</span>
+        <span class="visit-mark__dot"></span>
+        <span id="memory-status">MEMORY READY</span>
+      </div>
+    </div>
+
+    <main id="surface" class="surface">
+      <section class="panel panel--hero wear-anchor" data-wear-zone="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="kicker">A WEBSITE THAT WEARS LIKE DENIM.</p>
+          <h1 id="hero-title" class="display-title">
+            <span>EVERY TOUCH</span>
+            <span>LEAVES A TRACE.</span>
+          </h1>
+          <p class="hero-description">Like denim, this website changes with the way you use it.</p>
+        </div>
+
+        <div class="interaction-key" aria-label="Ways to interact">
+          <span>MOVE / FRICTION</span>
+          <span>PAUSE / PRESSURE</span>
+          <span>CLICK / ABRASION</span>
+          <span>SCROLL / REPEAT</span>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span>WEAR THE SURFACE</span>
+          <i></i>
+        </div>
+      </section>
+
+      <section class="panel panel--field wear-anchor" data-wear-zone="field" aria-labelledby="field-title">
+        <div class="section-index" aria-hidden="true">01 — FRICTION</div>
+        <div class="field-copy">
+          <p class="kicker">REPETITION MAKES THE INVISIBLE VISIBLE.</p>
+          <h2 id="field-title" class="section-title">MOVE THROUGH<br />THIS SURFACE.</h2>
+          <p class="section-note">
+            A single gesture is faint. A habit becomes material.
+          </p>
+        </div>
+        <div class="field-mark field-mark--one" aria-hidden="true"></div>
+        <div class="field-mark field-mark--two" aria-hidden="true"></div>
+      </section>
+
+      <section class="panel panel--memory wear-anchor" data-wear-zone="memory" aria-labelledby="memory-title">
+        <div class="section-index" aria-hidden="true">02 — ACCUMULATION</div>
+        <div class="memory-copy">
+          <p class="kicker">YOUR VERSION EXISTS ONLY IN THIS BROWSER.</p>
+          <h2 id="memory-title" class="section-title section-title--memory">
+            USE BECOMES<br />SURFACE.
+          </h2>
+          <p class="section-note section-note--memory">
+            The marks remain after refresh. Return later and continue from where the surface was left.
+          </p>
+        </div>
+        <p class="closing-line" aria-hidden="true">NO TWO SURFACES WEAR THE SAME.</p>
+      </section>
+    </main>
+
+    <aside class="wear-stats" aria-label="Accumulated wear statistics">
+      <dl>
+        <div>
+          <dt>TOTAL INTERACTIONS</dt>
+          <dd id="stat-interactions">0</dd>
+        </div>
+        <div>
+          <dt>TIME WORN</dt>
+          <dd id="stat-time">00:00:00</dd>
+        </div>
+        <div>
+          <dt>FADING LEVEL</dt>
+          <dd id="stat-fading">0.0%</dd>
+        </div>
+      </dl>
+    </aside>
+
+    <button id="reset-button" class="reset-button" type="button">RESET DENIM</button>
+
+    <dialog id="reset-dialog" class="reset-dialog" aria-labelledby="reset-title">
+      <div class="reset-dialog__inner">
+        <p class="kicker">ERASE LOCAL MEMORY</p>
+        <h2 id="reset-title">Return this surface to raw indigo?</h2>
+        <p>This removes the wear map, interaction count, and time stored in this browser.</p>
+        <div class="reset-dialog__actions">
+          <button id="cancel-reset" class="dialog-button dialog-button--quiet" type="button">KEEP TRACE</button>
+          <button id="confirm-reset" class="dialog-button dialog-button--danger" type="button">RESET DENIM</button>
+        </div>
+      </div>
+    </dialog>
+
+    <noscript>
+      <div class="noscript-message">
+        DIGITAL FADING needs JavaScript to record and render the wear created by your interactions.
+      </div>
+    </noscript>
+  </body>
+</html>
